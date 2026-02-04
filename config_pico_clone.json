@@ -1,0 +1,125 @@
+{
+  "hardware": {
+    "board": "pico_clone",
+    "scan_i2c_on_start": true,
+    "auto_detect_devices": true
+  },
+  "display": {
+    "type": "st7567_spi",
+    "spi_bus": 1,
+    "spi_settings": {
+      "baudrate": 200000,
+      "polarity": 1,
+      "phase": 1
+    },
+    "contrast": 31,
+    "flip_x": false,
+    "flip_y": true,
+    "width": 128,
+    "height": 64,
+    "max_chars": 16,
+    "pins": {
+      "sck": "spi1_sck",
+      "mosi": "spi1_mosi",
+      "dc": "spi1_dc",
+      "cs": "spi1_cs",
+      "rst": "spi1_rst"
+    }
+  },
+  "i2c_buses": {
+    "i2c0": {
+      "enabled": true,
+      "frequency": 100000,
+      "devices": [
+        "sensors"
+      ],
+      "pins": {
+        "sda": "i2c0_sda",
+        "scl": "i2c0_scl"
+      }
+    },
+    "i2c1": {
+      "enabled": true,
+      "frequency": 50000,
+      "devices": [
+        "controllers"
+      ],
+      "pins": {
+        "sda": "i2c1_sda",
+        "scl": "i2c1_scl"
+      }
+    }
+  },
+  "devices": {
+    "sensors": {
+      "enabled": true,
+      "i2c_bus": 0,
+      "aht20": {
+        "enabled": true,
+        "address": 56
+      },
+      "bmp280": {
+        "enabled": true,
+        "address": 119
+      }
+    }
+  },
+  "controllers": {
+    "enabled": true,
+    "i2c_bus": 1,
+    "fm_transmitter": {
+      "enabled": true,
+      "address": 62,
+      "default_frequency": 100.5,
+      "default_volume": 7
+    }
+  },
+  "wifi": {
+    "enabled": true,
+    "type": "esp8285",
+    "uart_bus": 0,
+    "pins": {
+      "tx": "uart0_tx",
+      "rx": "uart0_rx",
+      "enable": "esp_enable"
+    },
+    "networks": [
+      {
+        "ssid": "KazzttorAMT-IoT",
+        "password": "@Cde34rfV*",
+        "priority": 1
+      },
+      {
+        "ssid": "KazzttorAMTMob",
+        "password": "Cde34rfV",
+        "priority": 2
+      }
+    ],
+    "ntp_server": "pool.ntp.br",
+    "timezone": -3
+  },
+  "buttons": {
+    "enabled": true,
+    "debounce_ms": 50,
+    "long_press_ms": 2000,
+    "pins": {
+      "up": "button_up",
+      "down": "button_down",
+      "select": "button_select",
+      "back": "button_back"
+    }
+  },
+  "time": {
+    "auto_sync": true,
+    "manual_hour": 12,
+    "manual_minute": 0,
+    "manual_day": 1,
+    "manual_month": 1,
+    "manual_year": 2024
+  },
+  "system": {
+    "enable_console": true,
+    "enable_diagnostic": true,
+    "log_level": "INFO"
+  }
+}

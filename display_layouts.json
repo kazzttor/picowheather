@@ -1,0 +1,90 @@
+{
+  "st7567_spi": {
+    "pages": [
+      {
+        "name": "complete",
+        "duration": 1000,
+        "requires_sensors": ["aht20", "temperature", "humidity", "bmp280", "pressure"],
+        "requires_controller": ["fm_transmitter"],
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": 0, "y": 19, "length": 16, "style": "double"},
+          {"type": "sensor", "name": "temperature", "x": "center", "y": 23, "label": "Temp:", "unit": "C", "format": "5.1f"},
+          {"type": "sensor", "name": "humidity", "x": "center", "y": 33, "label": "Umid:", "unit": "%", "format": "3.0f"},
+          {"type": "sensor", "name": "pressure", "x": "center", "y": 43, "label": "Pres:", "unit": "hPa", "format": "5.1f"},
+          {"type": "controller", "name": "fm_frequency", "x": "center", "y": 53, "label": "FM:", "unit": "MHz", "format": "4.1f"}
+        ]
+      }
+    ],
+    "fallback": {
+      "name": "time_only",
+      "duration": 1000,
+      "elements": [
+        {"type": "date", "x": "center", "y": 10},
+        {"type": "time", "x": "center", "y": 25},
+        {"type": "separator", "x": "center", "y": 35, "length": 16, "style": "single"},
+        {"type": "text", "x": "center", "y": 45, "text": "Sem sensor"}
+      ]
+    }
+  },
+  "ssd1306_i2c": {
+    "pages": [
+      {
+        "name": "temperature",
+        "duration": 3000,
+        "requires_sensors": ["aht20", "temperature"],
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": "center", "y": 18, "length": 16},
+          {"type": "sensor", "name": "temperature", "x": "center", "y": 30, "label": "Temp:", "unit": "C", "format": "5.1f"}
+        ]
+      },
+      {
+        "name": "humidity",
+        "duration": 3000,
+        "requires_sensors": ["aht20", "humidity"],
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": "center", "y": 18, "length": 16},
+          {"type": "sensor", "name": "humidity", "x": "center", "y": 30, "label": "Umid:", "unit": "%", "format": "3.0f"}
+        ]
+      },
+      {
+        "name": "pressure",
+        "duration": 3000,
+        "requires_sensors": ["bmp280", "pressure"],
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": "center", "y": 18, "length": 16},
+          {"type": "sensor", "name": "pressure", "x": "center", "y": 30, "label": "Pres:", "unit": "hPa", "format": "5.1f"}
+        ]
+      },
+      {
+        "name": "fm",
+        "duration": 3000,
+        "requires_controller": ["fm_transmitter"],
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": "center", "y": 18, "length": 16},
+          {"type": "controller", "name": "fm_frequency", "x": "center", "y": 26, "label": "FM:", "unit": "MHz", "format": "4.1f"},
+          {"type": "controller", "name": "fm_volume", "x": "center", "y": 36, "label": "Vol:", "unit": "", "format": "1d"}
+        ]
+      }
+    ],
+    "fallback": {
+      "name": "time_only",
+      "duration": 3000,
+      "elements": [
+        {"type": "date", "x": "center", "y": 10},
+        {"type": "time", "x": "center", "y": 25},
+        {"type": "separator", "x": "center", "y": 35, "length": 16},
+        {"type": "text", "x": "center", "y": 45, "text": "Sem sensor"}
+      ]
+    }
+  }
+}

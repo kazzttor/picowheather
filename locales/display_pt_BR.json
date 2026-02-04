@@ -1,0 +1,49 @@
+{
+  "units": {
+    "temperature": "C",
+    "humidity": "%",
+    "pressure": "hPa",
+    "frequency": "MHz"
+  },
+  "formats": {
+    "date": "dd/mm/yyyy",
+    "time": "HH:MM:SS",
+    "datetime": "dd/mm/yyyy HH:MM",
+    "decimal": ",",
+    "thousands": "."
+  },
+  "labels": {
+    "temperature": "Temperatura",
+    "humidity": "Umidade", 
+    "pressure": "Pressão",
+    "frequency": "Frequência",
+    "fm_radio": "Rádio FM",
+    "volume": "Volume",
+    "mono": "Mono",
+    "stereo": "Estéreo",
+    "muted": "Mudo",
+    "unmuted": "Ativo",
+    "signal": "Sinal",
+    "wifi": "WiFi",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "ip_address": "IP",
+    "no_signal": "Sem sinal"
+  },
+  "pages": {
+    "main": "Principal",
+    "weather": "Clima",
+    "radio": "Rádio",
+    "network": "Rede",
+    "system": "Sistema"
+  },
+  "messages": {
+    "initializing": "Iniciando...",
+    "loading": "Carregando...",
+    "ready": "Pronto",
+    "error": "Erro",
+    "no_data": "Sem dados",
+    "connecting": "Conectando...",
+    "synchronizing": "Sincronizando..."
+  }
+}

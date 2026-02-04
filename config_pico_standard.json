@@ -1,0 +1,59 @@
+{
+  "hardware": {
+    "board": "pico_standard",
+    "scan_i2c_on_start": true,
+    "auto_detect_devices": true
+  },
+  "display": {
+    "type": "ssd1306_i2c",
+    "i2c_bus": 0,
+    "width": 128,
+    "height": 64,
+    "address": 60,
+    "pins": {
+      "sda": "i2c0_sda",
+      "scl": "i2c0_scl"
+    }
+  },
+  "i2c_buses": {
+    "i2c0": {
+      "enabled": true,
+      "frequency": 100000,
+      "pins": {
+        "sda": "i2c0_sda",
+        "scl": "i2c0_scl"
+      }
+    }
+  },
+  "devices": {
+    "sensors": {
+      "enabled": true,
+      "i2c_bus": 0,
+      "aht20": {
+        "enabled": true,
+        "address": 56
+      },
+      "bmp280": {
+        "enabled": true,
+        "address": 119
+      }
+    }
+  },
+  "buttons": {
+    "enabled": false
+  },
+  "time": {
+    "auto_sync": false,
+    "manual_hour": 12,
+    "manual_minute": 0,
+    "manual_day": 1,
+    "manual_month": 1,
+    "manual_year": 2024,
+    "timezone": 0
+  },
+  "system": {
+    "enable_console": true,
+    "enable_diagnostic": true,
+    "log_level": "INFO"
+  }
+}
