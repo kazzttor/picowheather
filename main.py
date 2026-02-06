@@ -25,6 +25,7 @@ from lib.display_manager import DisplayManager
 from utils.console import run_console
 from utils.diagnostic import run_diagnostics
 from utils.locale_manager import init_locale, t_console
+from utils.logger import log_info, log_error, log_sensor_update, log_system_event, log_console_event
 
 
 class PicoWeatherSystem:
@@ -54,7 +55,7 @@ class PicoWeatherSystem:
             raise RuntimeError("Failed to load configuration")
         
         # Initialize locale system
-        locale_code = self.config.get("system", {}).get("locale", "en_US")
+        locale_code = self.config.get("system", {}).get("locale", "pt_BR")
         init_locale(locale_code)  # Custom font handles charset issues automatically
     
     def _load_configuration(self):
@@ -453,7 +454,7 @@ class PicoWeatherSystem:
                     self.sensor_update_count += 1
                     if self.first_sensor_read:
                         self.first_sensor_read = False
-                        print(f"[SENSORS] First successful read: {new_data}")
+                        log_sensor_update(new_data)  # Log limpo da primeira leitura
             except Exception as e:
                 print(f"[SENSORS] Read error: {e}")
     
@@ -487,23 +488,20 @@ class PicoWeatherSystem:
             print(f"[DISPLAY] Update error: {e}")
     
     def enter_console_mode(self):
-        """Enter console mode for debugging"""
-        print("[MAIN] Entering console mode...")
+        """Enter console mode for debugging - system continues running"""
+        log_system_event("Entrando no modo console - sistema continua operando")
         try:
-            # Prepare system state for console
-            console_state = {
-                'drivers': self.drivers,
-                'sensor_data': self.sensor_data,
-                'controller_data': self.controller_data,
-                'time_data': self.time_data,
-                'config': self.config,
-                'hardware': self.hardware
-            }
+            # Pass the actual drivers directly to console
+            # Console should NOT stop the main system
+            from utils.console import PicoWeatherConsole
             
-            # Run console
-            run_console(console_state, self.drivers)
+            console = PicoWeatherConsole(self.drivers, self.config)
+            console.show_banner()
+            console.enter_console()
+            
         except Exception as e:
-            print(f"[MAIN] Console mode error: {e}")
+            log_error("CONSOLE", f"Erro no modo console: {e}")
+            # Continue running even if console fails
 
 # THREAD METHOD REMOVIDO - Sistema agora é completamente síncrono
     
@@ -593,8 +591,10 @@ class PicoWeatherSystem:
                 time.sleep(0.01)
                 
         except KeyboardInterrupt:
-            print("[MAIN] KeyboardInterrupt received - entering console mode")
+            log_system_event("CTRL+C pressionado - ativando modo console")
             self.enter_console_mode()
+            # Continue running after console exit
+            # No continue needed - will go back to while loop
         except Exception as e:
             print(f"[MAIN] Main loop error: {e}")
             self.error_count += 1

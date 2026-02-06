@@ -143,7 +143,7 @@ class TimeDriver:
                 # dd/mm/yyyy -> DD/MM/YYYY
                 format_lower = str(format_str).lower()
                 # Debug: mostrar qual formato está sendo usado
-                print(f"[TIME] Using format: {format_str}")
+                #print(f"[TIME] Using format: {format_str}")
                 
                 # Importante: ordem correta DD/MM/YYYY
                 if "dd/mm/yyyy" in format_lower:
@@ -321,7 +321,7 @@ class TimeDriver:
             
             # Rate limiting
             if utime.ticks_diff(current_time_ms, self.last_sync_attempt) < 300000:  # 5 minutes
-                print("[TIME] Rate limited - waiting before next sync")
+                # Rate limited - no log needed
                 return False
             
             self.last_sync_attempt = current_time_ms

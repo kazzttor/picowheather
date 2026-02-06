@@ -140,7 +140,7 @@ class DisplayDriver:
                     print(f"[DISPLAY] ST7567: Invalid buffer type: {type(framebuffer)}, expected bytes/bytearray")
                     return False
                 
-                print(f"[DISPLAY] ST7567: sending {len(framebuffer)} bytes to hardware")
+                # Framebuffer sent to hardware
                 # Send to ST7567 hardware
                 self.display.show(framebuffer)
             

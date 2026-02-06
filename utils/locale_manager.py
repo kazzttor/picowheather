@@ -311,7 +311,7 @@ class LocaleManager:
             thousands_sep = self.get_display_text("formats.thousands")
             
             # Debug
-            print(f"[LOCALE] Using decimal_sep='{decimal_sep}', thousands_sep='{thousands_sep}'")
+            # Locale configured successfully
             
             if decimal_places is not None:
                 format_str = f"{{:.{decimal_places}f}}"

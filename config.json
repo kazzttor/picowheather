@@ -66,12 +66,20 @@
       }
     }
   },
-  "controllers": {
+"controllers": {
     "fm_transmitter": {
       "enabled": true,
       "address": 62,
       "default_frequency": 100.5,
-      "default_volume": 7
+      "default_volume": 7,
+      "rds": {
+        "enabled": true,
+        "station_name": "PicoWeather",
+        "program_type": "Weather",
+        "text": "Temp: 26.5°C Umid: 65%",
+        "repeat_text": true,
+        "text_repeat_interval": 30
+      }
     }
   },
   "wifi": {

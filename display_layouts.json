@@ -9,11 +9,11 @@
         "elements": [
           {"type": "date", "x": "center", "y": 0},
           {"type": "time", "x": "center", "y": 10},
-          {"type": "separator", "x": 0, "y": 19, "length": 16, "style": "double"},
-          {"type": "sensor", "name": "temperature", "x": "center", "y": 23, "label": "Temp:", "unit": "C", "format": "5.1f"},
-          {"type": "sensor", "name": "humidity", "x": "center", "y": 33, "label": "Umid:", "unit": "%", "format": "3.0f"},
-          {"type": "sensor", "name": "pressure", "x": "center", "y": 43, "label": "Pres:", "unit": "hPa", "format": "5.1f"},
-          {"type": "controller", "name": "fm_frequency", "x": "center", "y": 53, "label": "FM:", "unit": "MHz", "format": "4.1f"}
+          {"type": "separator", "x": 0, "y": 20, "length": 16, "style": "double"},
+          {"type": "sensor", "name": "temperature", "x": "center", "y": 22, "label": "Temp:", "unit": "C", "format": "5.1f"},
+          {"type": "sensor", "name": "humidity", "x": "center", "y": 32, "label": "Umid:", "unit": "%", "format": "3.0f"},
+          {"type": "sensor", "name": "pressure", "x": "center", "y": 42, "label": "Pres:", "unit": "hPa", "format": "5.1f"},
+          {"type": "controller", "name": "fm_frequency", "x": "center", "y": 52, "label": "FM:", "unit": "MHz", "format": "4.1f"}
         ]
       }
     ],
