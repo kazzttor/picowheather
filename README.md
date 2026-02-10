@@ -100,7 +100,7 @@ Sistema completo de monitoramento meteorológico para Raspberry Pi Pico com disp
 1. **Clone do repositório**
 
    ```bash
-   git clone https://github.com/seu-usuario/picowheather.git
+   git clone https://github.com/kazzttor/picowheather.git
    cd picowheather
    ```
 
