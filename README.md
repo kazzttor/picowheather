@@ -214,7 +214,7 @@ Consulte `config.json` para configuração completa de pinos:
 - Confirme pinos DC, CS, RST
 - Ajuste o contraste no config.json
 
-#### ensores não detectados
+#### Sensores não detectados
 
 - Verifique endereços I2C
 - Use comando `scan` para identificar dispositivos
