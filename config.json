@@ -91,8 +91,8 @@
       "rx": "uart0_rx",
       "enable": "esp_enable"
     },
-    "ssid": "KazzttorAMT-IoT",
-    "password": "@Cde34rfV*",
+    "ssid": "SuaRedeWifi",
+    "password": "SenhaDaRedeWifi",
     "ntp_server": "pool.ntp.br",
     "timezone": -3
   },
