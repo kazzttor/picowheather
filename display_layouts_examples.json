@@ -1,0 +1,112 @@
+{
+  "demonstration": {
+    "pages": [
+      {
+        "name": "universal_com_secoes",
+        "duration": 2000,
+        "description": "Página universal que se adapta a qualquer hardware usando seções",
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": "center", "y": 18, "length": 16, "style": "double"},
+          
+          {
+            "type": "section",
+            "requires_sensors": ["temperature", "humidity"],
+            "description": "AHT20 - sensores integrados de temperatura e umidade",
+            "elements": [
+              {"type": "sensor", "name": "temperature", "x": 0, "y": 26, "label": "T:", "unit": "C", "format": "4.1f"},
+              {"type": "sensor", "name": "humidity", "x": 70, "y": 26, "label": "U:", "unit": "%", "format": "2.0f"}
+            ]
+          },
+          
+          {
+            "type": "section", 
+            "requires_sensors": ["pressure"],
+            "description": "BMP280/BME280 - sensor de pressão atmosférica",
+            "elements": [
+              {"type": "sensor", "name": "pressure", "x": "center", "y": 34, "label": "Pres:", "unit": "hPa", "format": "5.1f"}
+            ]
+          },
+          
+          {
+            "type": "section",
+            "requires_controller": ["fm_transmitter"],
+            "description": "RDA5807 - transmissor FM",
+            "elements": [
+              {"type": "controller", "name": "fm_frequency", "x": 0, "y": 42, "label": "FM:", "unit": "MHz", "format": "4.1f"},
+              {"type": "controller", "name": "fm_volume", "x": 70, "y": 42, "label": "V:", "unit": "", "format": "1d"}
+            ]
+          },
+          
+          {
+            "type": "section",
+            "requires_sensors": ["temperature"],
+            "elements": [
+              {"type": "text", "x": "center", "y": 50, "text": "Apenas Temp"}
+            ]
+          }
+        ]
+      },
+      
+      {
+        "name": "básico_sem_secoes",
+        "duration": 2000,
+        "description": "Página básica sem seções - sempre exibida independente do hardware",
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": "center", "y": 20, "length": 16, "style": "single"},
+          {"type": "text", "x": "center", "y": 30, "text": "PicoWeather"},
+          {"type": "text", "x": "center", "y": 40, "text": "Sistema Ativo"},
+          {"type": "text", "x": "center", "y": 50, "text": "Verifique Console"}
+        ]
+      },
+      
+      {
+        "name": "híbrido",
+        "duration": 2000,
+        "description": "Página híbrida - elementos fixos + seções condicionais",
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": "center", "y": 18, "length": 16},
+          {"type": "text", "x": "center", "y": 26, "text": "Sensores:"},
+          
+          {
+            "type": "section",
+            "requires_sensors": ["temperature"],
+            "elements": [
+              {"type": "sensor", "name": "temperature", "x": "center", "y": 34, "label": "Temp:", "unit": "C", "format": "5.1f"}
+            ]
+          },
+          
+          {
+            "type": "section",
+            "requires_sensors": ["humidity"],
+            "elements": [
+              {"type": "sensor", "name": "humidity", "x": "center", "y": 42, "label": "Umid:", "unit": "%", "format": "3.0f"}
+            ]
+          }
+        ]
+      },
+      
+      {
+        "name": "específico_com_requisitos",
+        "duration": 2000,
+        "description": "Página só exibida se hardware completo estiver presente",
+        "requires_sensors": ["temperature", "humidity", "pressure"],
+        "requires_controller": ["fm_transmitter"],
+        "elements": [
+          {"type": "date", "x": "center", "y": 0},
+          {"type": "time", "x": "center", "y": 10},
+          {"type": "separator", "x": "center", "y": 18, "length": 16, "style": "double"},
+          {"type": "text", "x": "center", "y": 26, "text": "Sistema Completo"},
+          {"type": "sensor", "name": "temperature", "x": 0, "y": 34, "label": "T:"},
+          {"type": "sensor", "name": "pressure", "x": 70, "y": 34, "label": "P:"},
+          {"type": "controller", "name": "fm_frequency", "x": "center", "y": 42, "label": "FM:"}
+        ]
+      }
+    ]
+  }
+}

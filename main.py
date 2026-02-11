@@ -464,26 +464,23 @@ class PicoWeatherSystem:
             return
         
         try:
-            # Prepare data for display manager
-            display_data = {
-                'sensor_data': self.sensor_data,
-                'controller_data': self.controller_data,
-                'time_data': self.time_data
-            }
+            # Get drivers for device availability checking
+            sensors_driver = self.drivers.get('sensors')
+            controller_driver = self.drivers.get('controller')
+            display_driver = self.drivers.get('display')
             
-            # Generate framebuffer
-            framebuffer = self.display_manager.generate_framebuffer(
-                self.sensor_data, 
-                self.controller_data, 
-                self.time_data
-            )
-            if framebuffer:
-                # Show via display driver
-                display_driver = self.drivers.get('display')
-                if display_driver and display_driver.is_healthy():
-                    success = display_driver.show_framebuffer(framebuffer)
-                    if not success:
-                        print("[DISPLAY] Failed to show framebuffer")
+            # Use the new interface that handles requirements checking
+            if display_driver and display_driver.is_healthy():
+                success = self.display_manager.show_on_display_driver(
+                    display_driver,
+                    self.sensor_data,
+                    self.controller_data,
+                    self.time_data,
+                    sensors_driver,
+                    controller_driver
+                )
+                if not success:
+                    print("[DISPLAY] Failed to show framebuffer")
         except Exception as e:
             print(f"[DISPLAY] Update error: {e}")
     

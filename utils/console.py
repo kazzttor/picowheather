@@ -1,10 +1,11 @@
 """
 Console - Interactive console interface for PicoWeather
-Provides comprehensive system management and diagnostics
+Provides comprehensive system management and diagnostics with history and autocomplete
 """
 
 import sys
 import json
+import time
 # Removed typing module for MicroPython compatibility
 
 # Import locale manager
@@ -69,8 +70,52 @@ class PicoWeatherConsole:
         self.time_driver = drivers.get("time")
         self.wifi_manager = drivers.get("wifi")
         
+        # Determine console type from hardware config with failsafe
+        self.console_type = self._setup_console_with_failsafe()
+        
         # Setup commands
         self._setup_commands()
+    
+    def _setup_console_with_failsafe(self):
+        """Setup console type with failsafe mechanism"""
+        try:
+            # Get hardware config
+            board_type = self.config.get('hardware', {}).get('board', 'pico')
+            from drivers.hardware_config import get_hardware_config
+            hardware = get_hardware_config(board_type)
+            console_type = hardware.get('features', {}).get('console', 'light')
+            
+            print(f"[CONSOLE] Board: {board_type}, Console type: {console_type}")
+            
+            if console_type == 'full':
+                # Try to create full console
+                try:
+                    from utils.simple_console import SimpleTabConsole
+                    self.enhanced_console = SimpleTabConsole()
+                    self.command_history = []
+                    self.max_history = 8  # More history for full console
+                    print("[CONSOLE] Full console loaded successfully")
+                    return 'full'
+                except Exception as e:
+                    print(f"[CONSOLE] Full console failed: {e}")
+                    print("[CONSOLE] Fallback to light console")
+                    # Continue to light console setup
+            
+            # Setup light console
+            self.enhanced_console = None
+            self.command_history = []
+            self.max_history = 2  # Minimal history for light console
+            print("[CONSOLE] Light console loaded")
+            return 'light'
+            
+        except Exception as e:
+            print(f"[CONSOLE] Console setup failed: {e}")
+            print("[CONSOLE] Emergency fallback to minimal console")
+            # Emergency minimal setup
+            self.enhanced_console = None
+            self.command_history = []
+            self.max_history = 1
+            return 'emergency'
     
     def t(self, key, **kwargs):
         """Get localized console text"""
@@ -115,18 +160,34 @@ class PicoWeatherConsole:
             'return': self._cmd_return,
             'reboot': self._cmd_reboot
         }
+        
+        # Setup subcommands for autocomplete
+        self.command_subcommands = {
+            'fm': ['status', 'frequency', 'volume', 'mute', 'unmute', 'rds'],
+            'wifi': ['status', 'scan', 'connect', 'disconnect', 'networks'],
+            'display': ['status', 'page', 'brightness', 'contrast', 'test'],
+            'config': ['show', 'set', 'reset', 'save'],
+            'time': ['show', 'set', 'sync', 'timezone'],
+            'diagnostic': ['all', 'sensors', 'controllers', 'display', 'system']
+        }
     
     def enter_console(self):
-        """Enter interactive console mode"""
+        """Enter interactive console mode with enhanced features"""
         self.show_banner()
         print("="*50)
         print(self.t("messages.console_mode"))
         print(self.t("messages.console_help"))
+        print(self.t("messages.enhanced_features"))
         print("="*50)
+        
+        # Setup ultra-light console - minimal memory
+        # Commands and subcommands are accessed directly
         
         while self.running:
             try:
-                line = input("pico> ").strip()
+                # Get input with Tab autocomplete
+                line = self._get_input_with_tab()
+                
                 if not line:
                     continue
                 
@@ -143,7 +204,7 @@ class PicoWeatherConsole:
                     if not self.running:
                         break
                 else:
-                    print(self.t("errors.unknown_command", command=cmd))
+                    print(self.t("messages.unknown_command", command=cmd))
                     
             except KeyboardInterrupt:
                 print(self.t("messages.use_exit"))
@@ -152,6 +213,62 @@ class PicoWeatherConsole:
                 break
             except Exception as e:
                 print(self.t("errors.console_error", error=str(e)))
+    
+    def _get_input_with_tab(self):
+        """Get input with minimal memory usage"""
+        try:
+            line = input("pico> ")
+            line = line.strip()
+            
+            # Simple ? trigger for autocomplete
+            if line.endswith('?'):
+                return self._minimal_autocomplete(line)
+            
+            # Add to simple history
+            if line:
+                self._add_simple_history(line)
+            
+            return line
+                
+        except KeyboardInterrupt:
+            print("^C")
+            return ""
+        except EOFError:
+            print("^D")
+            return ""
+    
+    def _add_simple_history(self, cmd):
+        """Add command to simple history"""
+        if cmd in self.command_history:
+            self.command_history.remove(cmd)
+        self.command_history.insert(0, cmd)
+        if len(self.command_history) > self.max_history:
+            self.command_history = self.command_history[:self.max_history]
+    
+    def _minimal_autocomplete(self, line_with_question):
+        """Minimal autocomplete with very low memory usage"""
+        partial = line_with_question[:-1].strip()
+        
+        if not partial:
+            print("Commands: help, status, sensors, scan, display, time, fm, wifi, diagnostic, config, save, exit")
+            return ""
+        
+        # Simple command completion
+        suggestions = []
+        for cmd in self.commands:
+            if cmd.startswith(partial):
+                suggestions.append(cmd)
+        
+        if len(suggestions) == 1:
+            print(f"Command: {suggestions[0]}")
+            return suggestions[0]
+        elif suggestions:
+            print("Commands:")
+            for s in suggestions[:3]:  # Limit to 3
+                print(f"  {s}")
+            return ""
+        else:
+            return partial
     
     def show_banner(self):
         """Show system banner"""
@@ -480,7 +597,12 @@ class PicoWeatherConsole:
             print("Failed to adjust time")
     
     def _cmd_fm(self, args):
-        """FM transmitter controls using controller_driver"""
+        """FM transmitter controls using controller_driver
+        Subcommands: status, frequency <freq>, volume <vol>, mute, unmute, rds
+        """
+        # Set subcommands for autocomplete
+        self.subcommands = ['status', 'frequency', 'volume', 'mute', 'unmute', 'rds']
+        
         controller_driver = self.drivers.get('controller')
         
         if not controller_driver:

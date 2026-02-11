@@ -5,10 +5,11 @@ HARDWARE_CONFIGS = {
     "pico": {
         "name": "Raspberry Pi Pico Padrão",
         "description": "Configuração padrão para Raspberry Pi Pico",
-        "features": {
-            "wifi_internal": False,
-            "wifi_esp8285": False
-        },
+         "features": {
+             "wifi_internal": False,
+             "wifi_esp8285": False,
+             "console": "light"  # "full" or "light" - Pico padrão usa light
+         },
         "pins": {
             # UART
             "uart0_tx": 0,
@@ -31,11 +32,12 @@ HARDWARE_CONFIGS = {
     "pico_clone": {
         "name": "Pico Clone com ESP8285",
         "description": "Clones do Pico com WiFi ESP8285 integrado via UART e display ST7567",
-        "features": {
-            "wifi_internal": False,
-            "wifi_esp8285": True,
-            "display_st7567": True
-        },
+         "features": {
+             "wifi_internal": False,
+             "wifi_esp8285": True,
+             "display_st7567": True,
+             "console": "full"  # Clone com WiFi tem mais RAM, usa console full
+         },
         "pins": {
             # UART0 reservado para ESP8285 (GPIO 0/1)
             "uart0_tx": 0,
@@ -78,10 +80,12 @@ HARDWARE_CONFIGS = {
     "pico_w": {
         "name": "Raspberry Pi Pico W",
         "description": "Raspberry Pi Pico com WiFi interno (CYW43)",
-        "features": {
-            "wifi_internal": True,
-            "wifi_esp8285": False
-        },
+         "features": {
+             "wifi_internal": True,
+             "wifi_esp8285": False,
+             "display_st7567": True,
+             "console": "full"  # Pico W tem mais RAM, usa console full
+         },
         "pins": {
             # UART
             "uart0_tx": 0,

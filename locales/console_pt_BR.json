@@ -175,6 +175,10 @@
     "messages": {
       "console_mode": "MODO CONSOLE PICOWEATHER",
       "console_help": "Digite 'help' para comandos ou 'exit' para sair",
+      "enhanced_features": "Recursos: Tab para autocompletar, histórico de comandos",
+      "autocomplete_suggestions": "Sugestões",
+      "available_commands": "Comandos disponíveis",
+      "no_suggestions": "Nenhuma sugestão encontrada",
       "use_exit": "\nUse 'exit' para sair do modo console",
       "exiting_console": "\nSaindo do modo console",
       "system_console": "CONSOLE DO SISTEMA PICOWEATHER",

@@ -339,6 +339,22 @@ class ControllerDriver:
         for controller in self.controllers.values():
             controller.error_count = 0
     
+    def get_available_controller_types(self):
+        """Get list of available controller types for layout requirements"""
+        available = []
+        
+        for controller in self.controllers.values():
+            if controller.initialized and controller.error_count < 5:
+                # Map controller class to available controller types
+                if isinstance(controller, FMTransmitterRDA5807):
+                    available.append('fm_transmitter')
+                elif hasattr(controller, 'name'):
+                    # Generic fallback - use controller name in lowercase
+                    controller_type = controller.name.lower().replace(' ', '_')
+                    available.append(controller_type)
+        
+        return list(set(available))  # Remove duplicates
+    
     def is_healthy(self):
         """Check if controllers are healthy"""
         if not self.controllers:

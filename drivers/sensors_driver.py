@@ -321,6 +321,38 @@ class SensorsDriver:
         for sensor in self.sensors.values():
             sensor.error_count = 0
     
+    def get_available_sensor_types(self):
+        """Get list of available sensor types for layout requirements"""
+        available = []
+        
+        for sensor in self.sensors.values():
+            if sensor.initialized and sensor.error_count < 5:
+                # Debug: Print sensor details
+                print(f"[DEBUG] Sensor: {type(sensor).__name__}, Name: {getattr(sensor, 'name', 'NO_NAME')}, Class: {isinstance(sensor, AHT20Sensor)}")
+                
+                # Map sensor class to available sensor types
+                if isinstance(sensor, AHT20Sensor):
+                    print(f"[DEBUG] Found AHT20 sensor")
+                    available.extend(['aht20', 'temperature', 'humidity'])
+                elif hasattr(sensor, 'name'):
+                    sensor_name = getattr(sensor, 'name', '').upper()
+                    print(f"[DEBUG] Checking sensor name: '{sensor_name}'")
+                    if 'BMP280' in sensor_name or 'BME280' in sensor_name:
+                        print(f"[DEBUG] Found BMP280/BME280 sensor")
+                        available.extend(['bmp280', 'bme280', 'pressure'])
+                        # BME280 also has temperature and humidity
+                        if 'BME280' in sensor_name:
+                            available.extend(['temperature', 'humidity'])
+                    # Check for direct type matching
+                    elif sensor_name == 'BMP280' or sensor_name == 'BME280':
+                        print(f"[DEBUG] Direct match for {sensor_name}")
+                        available.extend(['bmp280', 'bme280', 'pressure'])
+                        if 'BME280' in sensor_name:
+                            available.extend(['temperature', 'humidity'])
+        
+        print(f"[DEBUG] Final available sensors: {available}")
+        return list(set(available))  # Remove duplicates
+    
     def is_healthy(self):
         """Check if sensors are healthy"""
         if not self.sensors:
