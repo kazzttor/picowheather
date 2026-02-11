@@ -85,13 +85,13 @@
     },
     "networks": [
       {
-        "ssid": "KazzttorAMT-IoT",
-        "password": "@Cde34rfV*",
+        "ssid": "SuaRedeWifi",
+        "password": "SuaSenhaWifi",
         "priority": 1
       },
       {
-        "ssid": "KazzttorAMTMob",
-        "password": "Cde34rfV",
+        "ssid": "SuaRedeBackup",
+        "password": "SenhaWifi",
         "priority": 2
       }
     ],
